@@ -12,6 +12,7 @@ import (
 type EmailInput struct {
 	RefEmail string `json:"email"`
 	Password string `json:"password"`
+	To       string `json:"to"`
 }
 
 func Handle(w http.ResponseWriter, r *http.Request) {
@@ -32,7 +33,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(fmt.Sprintf("Umarshaling %s", err.Error())))
 	}
 	email := utils.NewEmail(emailInput.RefEmail, emailInput.Password, "smtp.gmail.com")
-	req := utils.NewEmailRequest([]string{"amir.gholzam@live.com"}, "test subject", "")
+	req := utils.NewEmailRequest([]string{emailInput.To}, "test subject", "")
 	templateData := struct {
 		Name    string
 		Code    string
